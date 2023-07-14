@@ -91,25 +91,6 @@ void cuda_implementation(std::string& load_image)
     int blocksPerGrid = (N + threadsPerBlock - 1) / threadsPerBlock;
     convert_to_grayscale_kernel << <blocksPerGrid, threadsPerBlock >> > (device_pixels, N);
     cudaDeviceSynchronize();
-
-    /*
-        // Functioneaza
-
-        // Define the grid structure
-        dim3 block_size(256, 1, 1);
-        dim3 grid_size(N / block_size.x + 1, 1, 1);
-        convert_to_grayscale_kernel << <block_size, grid_size >> > (device_pixels, N);
-        cudaDeviceSynchronize();
-        
-    
-        // NU functioneaza
-
-        // Define the grid structure
-        dim3 block_size(32, 32, 1);
-        dim3 grid_size(N / block_size.x + 1, N / block_size.y + 1, 1);
-        convert_to_grayscale_kernel << <block_size, grid_size >> > (device_pixels, N);
-        cudaDeviceSynchronize();
-    */
     
     // Copy the results back to the host
     cudaMemcpy(host_pixels, device_pixels, N * sizeof(Pixel), cudaMemcpyDeviceToHost);
